@@ -1,0 +1,60 @@
+import telebot
+from telebot import types
+
+
+TOKEN = '5070247946:AAGnYt_MZjightAq6KzLkexXnZkPH7LMAck'
+
+bot = telebot.TeleBot(TOKEN)
+
+@bot.message_handler(commands=['start'])
+def handle_text(message):
+bot.send_message(message.chat.id,
+'Привет!Чтобы узнать всю необходимую информацию,используй данные команды: /info , /rules')
+
+@bot.message_handler(commands=['rules'])
+def handle_text(message):
+bot.send_message(message.chat.id,
+'В данном боте имеются необходимые ссылки на аудио источники для простого поиска нужного Вам материала')
+
+
+@bot.message_handler(commands=['info'])
+def text(message):
+markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
+
+item1 = types.KeyboardButton('Trap')
+item2 = types.KeyboardButton('Hip-hop')
+item3 = types.KeyboardButton('Atmosphere')
+item4 = types.KeyboardButton('Chill Out')
+item5 = types.KeyboardButton('Deep House')
+
+markup.add(item1, item2, item3, item4, item5)
+
+bot.send_message(message.chat.id,
+'Приветствую ,{0.first_name}! Данный телеграм бот это экспериментальная разработка для тех кто хочет найти подходящий саунд для вашего проекта! '.format(
+message.from_user), reply_markup=markup)
+
+
+@bot.message_handler(content_types=['text'])
+def bot_message(message):
+if message.chat.type == 'private':
+if message.text == 'Атмосфера':
+bot.send_photo(message.chat.id, 'https://www.looperman.com/loops?page=1&gid=21&order=date&dir=d')
+bot.send_message(message.chat.id, 'Атмосфера"')
+
+if message.text == 'Rap':
+bot.send_message(message.chat.id,
+' Музыкальная форма вокальной подачи, включающая в себя «рифму, ритмичную речь и уличный жаргон», которая исполняется или произносится нараспев различными способами, как правило, под фоновый бит или музыкальный аккомпанемент.')
+bot.send_photo(message.chat.id, 'https://www.looperman.com/loops?page=1&gid=8&order=date&dir=d')
+bot.send_photo(message.chat.id, 'https://www.looperman.com/loops?page=1&gid=8&order=date&dir=d')
+
+if message.text == 'Trap':
+bot.send_message(message.chat.id, 'Музыкальный жанр, уходящий корнями в поздние 1990-е годы на юге США. В музыке широко используются многослойные синтезаторы, на которых ведётся мелодия с жёсткой линией; хрустящие, грязные и ритмичные рабочие барабаны; глубокие барабаны-бочки, либо мощные суббасовые партии; хай-хэты, ускоренные в два, три и более раз.')
+
+if message.text == 'Hip-hop':
+bot.send_message(message.chat.id, 'Хип-хоп, также хип-хоп-музыка (англ. Hip hop music) или рэп-музыка (англ. rap music) — музыкальный жанр популярной музыки, развитый в США афроамериканцами и латиноамериканцами, живущими в бедных районах Бронкса в Нью-Йорке в 1970-х годах. Хип-хоп-музыка состоит из стилизованной ритмичной музыки, которая обычно сопровождается рэпом, ритмичной и рифмованной речью, которую произносят нараспев.')
+
+if message.text == 'Atmosphere':
+bot.send_message(message.chat.id, 'Атмосфера - это то, что помогает отвлечься, забыть о реальности и выйти из нее на несколько минут!  ;) ')
+
+
+bot.polling(none_stop=True)
